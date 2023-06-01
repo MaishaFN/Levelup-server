@@ -8,8 +8,8 @@ router.get("/", isAuthenticated, async (req, res, next) => {
   console.log(req.payload);
   const userId = req.payload._id;
   try {
-  await User.findById(userId);
-    const groups = await Group.find({activeUser:{$in:[participants]}});
+    await User.findById(userId);
+    const groups = await Group.find({ activeUser: { $in: [participants] } });
     res.json(groups);
   } catch (error) {
     next(error);
@@ -20,8 +20,8 @@ router.get("/own", isAuthenticated, async (req, res, next) => {
   console.log(req.payload);
   const userId = req.payload._id;
   try {
-  await User.findById(userId);
-    const groups = await Group.find({activeUser:{$in:[owner]}});
+    await User.findById(userId);
+    const groups = await Group.find({ activeUser: { $in: [owner] } });
     res.json(groups);
   } catch (error) {
     next(error);
@@ -43,7 +43,14 @@ router.post("/create", isAuthenticated, async (req, res, next) => {
   const userId = req.payload._id;
   try {
     const { name, mods, participants } = req.body;
-    //!CONDICIONAL!
+
+    //Checking if the name is included
+    if (name) {
+      res
+        .status(404)
+        .json({ errorMessage: "You should put a name to the group" });
+      return;
+    }
     const newGroup = await Group.create({
       name,
       owner: userId,

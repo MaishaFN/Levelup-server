@@ -38,8 +38,7 @@ router.get("/friendsList", isAuthenticated, async (req, res, next) => {
   
     for (let i = 0; i < friendList.length; i++){
         try {
-            const friend = friendList[i].toString();
-            console.log(friend)
+            const friend = friendList[i];
             const friendPublication = await Publication.find({owner: { $in: [friend] }});
             if (friendPublication.length > 0){
                 publicationList = [...publicationList, ...friendPublication]
