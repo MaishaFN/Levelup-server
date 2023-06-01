@@ -35,21 +35,22 @@ router.get("/friendsList", isAuthenticated, async (req, res, next) => {
     const friendList = userActive.friends
     let publicationList = [];
 
-    const friendListFunction = async () =>{
-        for (let i = 0; i < friendList.length; i++){
-            try {
-                const friendPublication = await Publication.find({owner: { $in: [friendList[i]] }});
-                if (friendPublication.length > 0){
-                    publicationList = [...publicationList, ...friendPublication]
-                } else {
-                    publicationList = [...publicationList, friendPublication]
-                }     
-            } catch (error) {
-                next(error)
-            }
+  
+    for (let i = 0; i < friendList.length; i++){
+        try {
+            const friend = friendList[i].toString();
+            console.log(friend)
+            const friendPublication = await Publication.find({owner: { $in: [friend] }});
+            if (friendPublication.length > 0){
+                publicationList = [...publicationList, ...friendPublication]
+            } else {
+                publicationList = [...publicationList, friendPublication]
+            }     
+        } catch (error) {
+            next(error)
         }
     }
-    friendListFunction()
+    
     res.json(publicationList);
   } catch (error) {}
 });
