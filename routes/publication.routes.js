@@ -35,7 +35,7 @@ router.get("/friendsList", isAuthenticated, async (req, res, next) => {
     const friendList = userActive.friends
     let publicationList = [];
 
-  
+    // Find all friends publications
     for (let i = 0; i < friendList.length; i++){
         try {
             const friend = friendList[i];
