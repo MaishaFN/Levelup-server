@@ -8,6 +8,7 @@ router.use("/auth", require("./auth.routes"));
 router.use("/user", require("./user.routes"));
 router.use("/group", require("./group.routes"));
 router.use("/publication", require("./publication.routes"));
+router.use("/valuation", require("./valuation.routes"));
 
 
 
