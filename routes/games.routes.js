@@ -2,7 +2,7 @@ const router = require("express").Router();
 const axios = require("axios");
 
 
-//GET "/list/:page" => All game list next page
+//GET "games/list/:page" => All game list next page
 router.get("/list/:page", async (req, res, next) =>{
     try {
         const response = await axios.get(`https://api.rawg.io/api/games?key=${process.env.RAWG_KEY}&page=${req.params.page}`);
@@ -14,7 +14,7 @@ router.get("/list/:page", async (req, res, next) =>{
 })
 
 
-//GET "/:gameId/details" => Game details
+//GET "/games/:gameId/details" => Game details
 router.get("/:gameId/details", async (req, res, next) =>{
     try {
         const response = await axios.get(`https://api.rawg.io/api/games?key=${process.env.RAWG_KEY}/${req.params.gameId}`);
@@ -24,7 +24,7 @@ router.get("/:gameId/details", async (req, res, next) =>{
     }
 })
 
-//GET "/find" => find game by query
+//GET "/games/find" => find game by query
 
 router.get("/list/:queryValue", async (req, res, next) =>{
     try {
