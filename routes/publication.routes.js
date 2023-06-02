@@ -8,7 +8,7 @@ const router = require("express").Router();
 router.get("/", isAuthenticated, async (req, res, next) => {
   const userId = req.payload._id;
   try {
-    const publications = await Publication.find({ owner: { $in: [userId] } });
+    const publications = await Publication.find({ owner: { $in: [userId] } }).populate("owner");
     res.json(publications);
   } catch (error) {
     next(error);
@@ -39,7 +39,7 @@ router.get("/friendList", isAuthenticated, async (req, res, next) => {
     for (let i = 0; i < friendList.length; i++){
         try {
             const friend = friendList[i];
-            const friendPublication = await Publication.find({owner: { $in: [friend] }});
+            const friendPublication = await Publication.find({owner: { $in: [friend] }}).populate("owner");
             if (friendPublication.length > 0){
                 publicationList = [...publicationList, ...friendPublication]
             } else {

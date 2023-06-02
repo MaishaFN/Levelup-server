@@ -17,7 +17,7 @@ router.get("/", isAuthenticated, async (req, res, next) => {
 
 //GET "/user/friend/:friendId" => user's friend info
 
-router.get("/friend/:friendId", isAuthenticated, async (req, res, next) => {
+router.get("/:friendId", isAuthenticated, async (req, res, next) => {
   try {
     const friend = await User.findById(req.params.friendId);
     res.json(friend);

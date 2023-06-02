@@ -8,7 +8,7 @@ router.get("/", isAuthenticated, async (req, res, next) => {
   const userId = req.payload._id;
   try {
     await User.findById(userId);
-    const groups = await Group.find({ participants: { $in: [userId]  } });
+    const groups = await Group.find({ participants: { $in: [userId]  } }).populate("participants");
     res.json(groups);
   } catch (error) {
     next(error);
@@ -19,7 +19,7 @@ router.get("/own", isAuthenticated, async (req, res, next) => {
   const userId = req.payload._id;
   try {
     await User.findById(userId);
-    const groups = await Group.find({ owner: { $in: [userId] } });
+    const groups = await Group.find({ owner: { $in: [userId] } }).populate("participants");
     res.json(groups);
   } catch (error) {
     next(error);
