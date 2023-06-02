@@ -7,7 +7,7 @@ router.get("/list/:page", async (req, res, next) =>{
     try {
         const response = await axios.get(`https://api.rawg.io/api/games?key=${process.env.RAWG_KEY}&page=${req.params.page}`);
 
-        res.json([...response.data.results]);
+        res.json(response.data.results);
     } catch (error) {
         next(error)
     }
