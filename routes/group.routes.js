@@ -68,7 +68,6 @@ router.patch("/:groupId/:userId/add-user", async (req, res, next) => {
   }
 );
 
-
 //PATCH "/group/:groupId/:userId/delete-user" => Delete a user from a group
 router.patch("/:groupId/:userId/delete-user", async (req, res, next) => {
     try {
