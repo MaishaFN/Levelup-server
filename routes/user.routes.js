@@ -74,9 +74,9 @@ router.put("/edit", isAuthenticated, async (req, res, next) => {
   }
 });
 
-//PATCH "/user/addFriend/:friendId" => add a friend
+//PATCH "/user/add-friend/:friendId" => add a friend
 router.patch(
-  "/addFriend/:friendId",
+  "/add-friend/:friendId",
   isAuthenticated,
   async (req, res, next) => {
     const userId = req.payload._id;

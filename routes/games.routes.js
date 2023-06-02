@@ -17,14 +17,16 @@ router.get("/list/:page", async (req, res, next) =>{
 //GET "/games/:gameId/details" => Game details
 router.get("/:gameId/details", async (req, res, next) =>{
     try {
-        const response = await axios.get(`https://api.rawg.io/api/games?key=${process.env.RAWG_KEY}/${req.params.gameId}`);
-        res.json(response.data.results);
+        // const response = await axios.get(`https://api.rawg.io/api/games/${req.params.gameId}?key=${process.env.RAWG_KEY}`);
+        const response = await axios.get(`https://api.rawg.io/api/games/${req.params.gameId}?key=${process.env.RAWG_KEY}`);
+
+        res.json(response.data);
     } catch (error) {
         next(error)
     }
 })
 
-//GET "/list/:queryValue" => find game by query
+//GET "/games/list/:queryValue" => find game by query
 
 router.get("/list/:queryValue", async (req, res, next) =>{
     try {
