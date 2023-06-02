@@ -24,7 +24,7 @@ router.get("/:gameId/details", async (req, res, next) =>{
     }
 })
 
-//GET "/games/find" => find game by query
+//GET "/list/:queryValue" => find game by query
 
 router.get("/list/:queryValue", async (req, res, next) =>{
     try {
