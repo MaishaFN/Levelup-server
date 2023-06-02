@@ -27,7 +27,7 @@ router.post("/", isAuthenticated, async (req, res, next) => {
     }
 });
 
-//GET "/publications/friendList" =>  get friends publications
+//GET "/publication/friendList" =>  get friends publications
 router.get("/friendsList", isAuthenticated, async (req, res, next) => {
   const userId = req.payload._id;
   try {
@@ -54,7 +54,7 @@ router.get("/friendsList", isAuthenticated, async (req, res, next) => {
   } catch (error) {}
 });
 
-//DELETE "/publications/:publicationId" => delete a publication
+//DELETE "/publication/:publicationId" => delete a publication
 router.delete("/:publicationId", async (req, res, next) => {
   try {
     await Publication.findByIdAndDelete(req.params.publicationId);
