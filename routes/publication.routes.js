@@ -28,7 +28,7 @@ router.post("/", isAuthenticated, async (req, res, next) => {
 });
 
 //GET "/publication/friendList" =>  get friends publications
-router.get("/friendsList", isAuthenticated, async (req, res, next) => {
+router.get("/friendList", isAuthenticated, async (req, res, next) => {
   const userId = req.payload._id;
   try {
     const userActive = await User.findById(userId);
