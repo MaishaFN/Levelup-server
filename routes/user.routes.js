@@ -26,6 +26,24 @@ router.get("/:friendId", isAuthenticated, async (req, res, next) => {
   }
 });
 
+//GET "/user/:queryFriend/find" => user's friend info
+
+router.get("/:queryFriend/find", isAuthenticated, async (req, res, next) => {
+  try {
+    const friend = await User.findOne({username: req.params.queryFriend});
+
+    //User not found
+    if(!friend){
+      res.status(404).json({ errorMessage: "Username not found" });
+      return;
+    }
+
+    res.json(friend);
+  } catch (error) {
+    next(error);
+  }
+});
+
 //PUT "/user/edit" => edit user info
 router.put("/edit", isAuthenticated, async (req, res, next) => {
   const userId = req.payload._id;

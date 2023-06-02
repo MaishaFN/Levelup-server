@@ -33,7 +33,7 @@ router.get("/groups", async (req, res, next) => {
 
 
 
-//DELETE "/admin/:groupId" => Delete an groups
+//DELETE "/admin/group/:groupId" => Delete an groups
 router.delete("/group/:groupId", async (req, res, next)=>{
     try {
         await Group.findByIdAndDelete(req.params.groupId)

@@ -50,7 +50,6 @@ router.post("/create", isAuthenticated, async (req, res, next) => {
     }
      //Checking if the name is already use
      const foundGroup = await Group.findOne({name: name});
-     console.log(foundGroup)
      if (foundGroup) {
       res.status(404).json({ errorMessage: "The name is already taken" });
       return;
