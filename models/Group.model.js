@@ -9,6 +9,12 @@ const groupSchema = new Schema(
       trim: true,
     },
 
+    description: {
+      type: String,
+      required: true,
+      trim: true
+    },
+    
     owner: {
       type: Schema.Types.ObjectId,
       ref: "User",

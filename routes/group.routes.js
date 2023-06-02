@@ -39,7 +39,7 @@ router.get("/:groupId/details", async (req, res, next) => {
 router.post("/create", isAuthenticated, async (req, res, next) => {
   const userId = req.payload._id;
   try {
-    const { name } = req.body;
+    const { name, description } = req.body;
 
     //Checking if the name is included
     if (!name) {
@@ -48,11 +48,20 @@ router.post("/create", isAuthenticated, async (req, res, next) => {
         .json({ errorMessage: "You should put a name to the group" });
       return;
     }
-    const newGroup = await Group.create({
+     //Checking if the name is already use
+     const foundGroup = await Group.findOne({name: name});
+     console.log(foundGroup)
+     if (foundGroup) {
+      res.status(404).json({ errorMessage: "The name is already taken" });
+      return;
+    }
+
+    await Group.create({
       name,
+      description,
       owner: userId,
     });
-    res.json(newGroup);
+    res.json("Group created");
   } catch (error) {
     next(error);
   }
