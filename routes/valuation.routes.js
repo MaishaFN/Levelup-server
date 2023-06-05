@@ -7,7 +7,7 @@ router.get("/:gameId", isAuthenticated, async (req, res, next) => {
   try {
     const allValuations = await Valuation.find({
       gameId: { $in: [req.params.gameId] },
-    });
+    }).populate("owner");
     res.json(allValuations);
   } catch (error) {
     next(error);
