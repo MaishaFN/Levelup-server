@@ -34,10 +34,18 @@ router.delete("/:groupCommentId", async (req, res, next) => {
     }
 });
 
-//PATCH "/group-comment/:groupCommentId/add-like" => push a new reaction to the comment
-router.patch("/:groupCommentId/add-like", isAuthenticated, async (req, res, next) =>{
-    const userId = req.payload._id;
-    try {
+//PATCH "/group-comment/:groupCommentId/handle-like" => push/pull a new reaction to the comment
+router.patch("/:groupCommentId/handle-like", isAuthenticated, async (req, res, next) =>{
+  const userId = req.payload._id;
+  try {
+
+    //checking if the user already did a reaction
+    const foundGroupComment = await GroupComment.findById(req.params.valuationId);
+    if(foundGroupComment.likes.includes(userId)) {
+      await GroupComment.findByIdAndUpdate(req.params.valuationId, {$pull: { likes: userId}});
+      res.json("Reaction deleted");
+    }
+
       await GroupComment.findByIdAndUpdate(req.params.groupCommentId, {$push: { likes: userId}});
       res.json("Reaction added");
     } catch (error) {
@@ -45,21 +53,19 @@ router.patch("/:groupCommentId/add-like", isAuthenticated, async (req, res, next
     }
 });
 
-//PATCH "/group-comment/:groupCommentId/delete-like" => pull a reaction from the comment
-router.patch("/:groupCommentId/delete-like", isAuthenticated, async (req, res, next) =>{
-    const userId = req.payload._id;
-    try {
-      await GroupComment.findByIdAndUpdate(req.params.groupCommentId, {$pull: { likes: userId}});
-      res.json("Reaction deleted");
-    } catch (error) {
-        next(error);
-    }
-});
 
-//PATCH "/group-comment/:groupCommentId/add-love" => push a new reaction to the comment
-router.patch("/:groupCommentId/add-like", isAuthenticated, async (req, res, next) =>{
+//PATCH "/group-comment/:groupCommentId/handle-love" => push/pull a new reaction to the comment
+router.patch("/:groupCommentId/handle-love", isAuthenticated, async (req, res, next) =>{
     const userId = req.payload._id;
     try {
+
+      //checking if the user already did a reaction
+      const foundGroupComment = await GroupComment.findById(req.params.valuationId);
+      if(foundGroupComment.loves.includes(userId)) {
+        await GroupComment.findByIdAndUpdate(req.params.valuationId, {$pull: { loves: userId}});
+        res.json("Reaction deleted");
+      }
+
       await GroupComment.findByIdAndUpdate(req.params.groupCommentId, {$push: { loves: userId}});
       res.json("Reaction added");
     } catch (error) {
@@ -67,34 +73,20 @@ router.patch("/:groupCommentId/add-like", isAuthenticated, async (req, res, next
     }
 });
 
-//PATCH "/group-comment/:groupCommentId/delete-love" => pull a reaction from the comment
-router.patch("/:groupCommentId/delete-love", isAuthenticated, async (req, res, next) =>{
+//PATCH "/group-comment/:groupCommentId/handle-dislike" => push a new reaction to the comment
+router.patch("/:groupCommentId/handle-dislike", isAuthenticated, async (req, res, next) =>{
     const userId = req.payload._id;
     try {
-      await GroupComment.findByIdAndUpdate(req.params.groupCommentId, {$pull: { loves: userId}});
-      res.json("Reaction deleted");
-    } catch (error) {
-        next(error);
-    }
-});
 
-//PATCH "/group-comment/:groupCommentId/add-dislike" => push a new reaction to the comment
-router.patch("/:groupCommentId/dislike-like", isAuthenticated, async (req, res, next) =>{
-    const userId = req.payload._id;
-    try {
+      //checking if the user already did a reaction
+      const foundGroupComment = await GroupComment.findById(req.params.valuationId);
+      if(foundGroupComment.dislikes.includes(userId)) {
+        await GroupComment.findByIdAndUpdate(req.params.valuationId, {$pull: { dislikes: userId}});
+        res.json("Reaction deleted");
+      } 
+  
       await GroupComment.findByIdAndUpdate(req.params.groupCommentId, {$push: { dislikes: userId}});
       res.json("Reaction added");
-    } catch (error) {
-        next(error);
-    }
-});
-
-//PATCH "/group-comment/:groupCommentId/add-dislike" => pull a reaction from the comment
-router.patch("/:groupCommentId/dislike-like", isAuthenticated, async (req, res, next) =>{
-    const userId = req.payload._id;
-    try {
-      await GroupComment.findByIdAndUpdate(req.params.groupCommentId, {$pull: { dislikes: userId}});
-      res.json("Reaction deleted");
     } catch (error) {
         next(error);
     }
