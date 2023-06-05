@@ -74,6 +74,7 @@ router.patch("/:publicationId/handle-like", isAuthenticated, async (req, res, ne
     if(publication.likes.includes(userId)) {
      await Publication.findByIdAndUpdate(req.params.valuationId, {$pull: { likes: userId}});;
       res.json("Reaction deleted");
+      return;
     }
 
     await Publication.findByIdAndUpdate(req.params.publicationId, {$push: { likes: userId}});
@@ -93,6 +94,7 @@ router.patch("/:publicationId/handle-love", isAuthenticated, async (req, res, ne
     if(publication.loves.includes(userId)) {
       await Publication.findByIdAndUpdate(req.params.valuationId, {$pull: { loves: userId}});
       res.json("Reaction deleted");
+      return;
     };
 
     await Publication.findByIdAndUpdate(req.params.publicationId, {$push: { loves: userId}});
@@ -112,6 +114,7 @@ router.patch("/:publicationId/handle-dislike", isAuthenticated, async (req, res,
     if(publication.dislikes.includes(userId)) {
       await Publication.findByIdAndUpdate(req.params.valuationId, {$pull: { dislikes: userId}});
       res.json("Reaction deleted");
+      return;
     };
 
     await Publication.findByIdAndUpdate(req.params.publicationId, {$push: { dislikes: userId}});

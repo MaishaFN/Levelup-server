@@ -49,7 +49,8 @@ router.patch("/:valuationId/handle-like", isAuthenticated, async (req, res, next
     const valuation = await Valuation.findById(req.params.valuationId);
     if(valuation.likes.includes(userId)) {
       await Valuation.findByIdAndUpdate(req.params.valuationId, {$pull: { likes: userId}});
-      res.json("Like deleted");
+      res.json("Reaction deleted");
+      return;
     }
 
     await Valuation.findByIdAndUpdate(req.params.valuationId, {$push: { likes: userId}});
@@ -69,6 +70,7 @@ router.patch("/:valuationId/handle-love", isAuthenticated, async (req, res, next
     if(valuation.likes.includes(userId)) {
       await Valuation.findByIdAndUpdate(req.params.valuationId, {$pull: { loves: userId}});
       res.json("Reaction deleted");
+      return;
     }
 
     await Valuation.findByIdAndUpdate(req.params.valuationId, {$push: { loves: userId}});
@@ -87,7 +89,8 @@ router.patch("/:valuationId/dislike-like", isAuthenticated, async (req, res, nex
      const valuation = await Valuation.findById(req.params.valuationId);
      if(valuation.likes.includes(userId)) {
       await Valuation.findByIdAndUpdate(req.params.valuationId, {$pull: { dislikes: userId}});;
-       res.json("Reaction deleted");
+      res.json("Reaction deleted");
+      return;
      }
 
     await Valuation.findByIdAndUpdate(req.params.valuationId, {$push: { dislikes: userId}});

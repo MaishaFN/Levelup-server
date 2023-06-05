@@ -44,6 +44,7 @@ router.patch("/:groupCommentId/handle-like", isAuthenticated, async (req, res, n
     if(foundGroupComment.likes.includes(userId)) {
       await GroupComment.findByIdAndUpdate(req.params.valuationId, {$pull: { likes: userId}});
       res.json("Reaction deleted");
+      return;
     }
 
       await GroupComment.findByIdAndUpdate(req.params.groupCommentId, {$push: { likes: userId}});
@@ -64,6 +65,8 @@ router.patch("/:groupCommentId/handle-love", isAuthenticated, async (req, res, n
       if(foundGroupComment.loves.includes(userId)) {
         await GroupComment.findByIdAndUpdate(req.params.valuationId, {$pull: { loves: userId}});
         res.json("Reaction deleted");
+        return;
+
       }
 
       await GroupComment.findByIdAndUpdate(req.params.groupCommentId, {$push: { loves: userId}});
@@ -83,6 +86,7 @@ router.patch("/:groupCommentId/handle-dislike", isAuthenticated, async (req, res
       if(foundGroupComment.dislikes.includes(userId)) {
         await GroupComment.findByIdAndUpdate(req.params.valuationId, {$pull: { dislikes: userId}});
         res.json("Reaction deleted");
+        return;
       } 
   
       await GroupComment.findByIdAndUpdate(req.params.groupCommentId, {$push: { dislikes: userId}});
