@@ -11,7 +11,7 @@ router.post("/signup", async (req, res, next) => {
   //! Username and password filled
   if (!username || !password) {
     res
-      .status(404)
+      .status(400)
       .json({ errorMessage: "Please enter username and password" });
     return;
   }
@@ -19,17 +19,17 @@ router.post("/signup", async (req, res, next) => {
     //!Username already exists
     const foundUser = await User.findOne({ username: username });
     if (foundUser) {
-      res.status(404).json({ errorMessage: "Username is already in use" });
+      res.status(400).json({ errorMessage: "Username is already in use" });
       return;
     }
     //! Confirm password
     if(password !== confirmPass) {
-        res.status(404).json({ errorMessage: "Password is not the same"})
+        res.status(400).json({ errorMessage: "Password is not the same"})
         return
     }
     //! Checking if password is safe
     if (regexPattern.test(password) === false) {
-      res.status(404).json({errorMessage: "The code of honour must be more intricate."});
+      res.status(400).json({errorMessage: "The code of honour must be more intricate."});
       return;
     }
     //! Encrypt Password
@@ -49,13 +49,13 @@ router.post("/login", async (req, res, next)=>{
     //! Username not Registered
   const foundUser = await User.findOne({username:username})
     if (!foundUser){
-      res.status(404).json({errorMessage: "Username is not registered"})
+      res.status(400).json({errorMessage: "Username is not registered"})
       return;
     }
     //! Password is not correct
     const isPasswordCorrect = await bcrypt.compare(password, foundUser.password)
     if(!isPasswordCorrect){
-      res.status(404).json({errorMessage: "Password is not correct"})
+      res.status(400).json({errorMessage: "Password is not correct"})
       return;
     }
     //! Token Creation and Auth

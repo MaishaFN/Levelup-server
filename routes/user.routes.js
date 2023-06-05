@@ -34,7 +34,7 @@ router.get("/:queryFriend/find", isAuthenticated, async (req, res, next) => {
 
     //User not found
     if(!friend){
-      res.status(404).json({ errorMessage: "Username not found" });
+      res.status(400).json({ errorMessage: "Username not found" });
       return;
     }
 
@@ -46,6 +46,7 @@ router.get("/:queryFriend/find", isAuthenticated, async (req, res, next) => {
 
 //PUT "/user/edit" => edit user info
 router.put("/edit", isAuthenticated, async (req, res, next) => {
+  
   const userId = req.payload._id;
   try {
     const {
@@ -67,7 +68,7 @@ router.put("/edit", isAuthenticated, async (req, res, next) => {
       activeUser.password
     );
     if (!isPasswordCorrect) {
-      res.status(404).json({ errorMessage: "Password is not correct" });
+      res.status(400).json({ errorMessage: "Password is not correct" });
       return;
     }
 
