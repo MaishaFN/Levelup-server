@@ -40,4 +40,71 @@ router.delete("/:valuationId", isAuthenticated, async (req, res, next) => {
   }
 });
 
+//PATCH "/valuation/:valuationId/add-like" => push a new reaction to the comment
+router.patch("/:valuationId/add-like", isAuthenticated, async (req, res, next) =>{
+  const userId = req.payload._id;
+  try {
+    await Valuation.findByIdAndUpdate(req.params.valuationId, {$push: { likes: userId}});
+    res.json("Reaction added");
+  } catch (error) {
+      next(error);
+  }
+});
+
+//PATCH "/valuation/:valuationId/delete-like" => pull a reaction from the comment
+router.patch("/:valuationId/delete-like", isAuthenticated, async (req, res, next) =>{
+  const userId = req.payload._id;
+  try {
+    await Valuation.findByIdAndUpdate(req.params.valuationId, {$pull: { likes: userId}});
+    res.json("Reaction deleted");
+  } catch (error) {
+      next(error);
+  }
+});
+
+//PATCH "/valuation/:valuationId/add-love" => push a new reaction to the comment
+router.patch("/:valuationId/add-like", isAuthenticated, async (req, res, next) =>{
+  const userId = req.payload._id;
+  try {
+    await Valuation.findByIdAndUpdate(req.params.valuationId, {$push: { loves: userId}});
+    res.json("Reaction added");
+  } catch (error) {
+      next(error);
+  }
+});
+
+//PATCH "/valuation/:valuationId/delete-love" => pull a reaction from the comment
+router.patch("/:valuationId/delete-love", isAuthenticated, async (req, res, next) =>{
+  const userId = req.payload._id;
+  try {
+    await Valuation.findByIdAndUpdate(req.params.valuationId, {$pull: { loves: userId}});
+    res.json("Reaction deleted");
+  } catch (error) {
+      next(error);
+  }
+});
+
+//PATCH "/valuation/:valuationId/add-dislike" => push a new reaction to the comment
+router.patch("/:valuationId/dislike-like", isAuthenticated, async (req, res, next) =>{
+  const userId = req.payload._id;
+  try {
+    await Valuation.findByIdAndUpdate(req.params.valuationId, {$push: { dislikes: userId}});
+    res.json("Reaction added");
+  } catch (error) {
+      next(error);
+  }
+});
+
+//PATCH "/valuation/:valuationId/add-dislike" => pull a reaction from the comment
+router.patch("/:valuationId/dislike-like", isAuthenticated, async (req, res, next) =>{
+  const userId = req.payload._id;
+  try {
+    await Valuation.findByIdAndUpdate(req.params.valuationId, {$pull: { dislikes: userId}});
+    res.json("Reaction deleted");
+  } catch (error) {
+      next(error);
+  }
+});
+
+
 module.exports = router;

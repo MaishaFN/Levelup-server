@@ -64,4 +64,71 @@ router.delete("/:publicationId", async (req, res, next) => {
   }
 });
 
+//PATCH "/publication/:publicationId/add-like" => push a new reaction to the publication
+router.patch("/:publicationId/add-like", isAuthenticated, async (req, res, next) =>{
+  const userId = req.payload._id;
+  try {
+    await GroupComment.findByIdAndUpdate(req.params.publicationId, {$push: { likes: userId}});
+    res.json("Reaction added");
+  } catch (error) {
+      next(error);
+  }
+});
+
+//PATCH "/publication/:publicationId/delete-like" => pull a reaction from the publication
+router.patch("/:publicationId/delete-like", isAuthenticated, async (req, res, next) =>{
+  const userId = req.payload._id;
+  try {
+    await Publication.findByIdAndUpdate(req.params.publicationId, {$pull: { likes: userId}});
+    res.json("Reaction deleted");
+  } catch (error) {
+      next(error);
+  }
+});
+
+//PATCH "/publication/:publicationId/add-love" => push a new reaction to the publication
+router.patch("/:publicationId/add-like", isAuthenticated, async (req, res, next) =>{
+  const userId = req.payload._id;
+  try {
+    await Publication.findByIdAndUpdate(req.params.publicationId, {$push: { loves: userId}});
+    res.json("Reaction added");
+  } catch (error) {
+      next(error);
+  }
+});
+
+//PATCH "/publication/:publicationId/delete-love" => pull a reaction from the publication
+router.patch("/:publicationId/delete-love", isAuthenticated, async (req, res, next) =>{
+  const userId = req.payload._id;
+  try {
+    await Publication.findByIdAndUpdate(req.params.publicationId, {$pull: { loves: userId}});
+    res.json("Reaction deleted");
+  } catch (error) {
+      next(error);
+  }
+});
+
+//PATCH "/publication/:publicationId/add-dislike" => push a new reaction to the publication
+router.patch("/:publicationId/dislike-like", isAuthenticated, async (req, res, next) =>{
+  const userId = req.payload._id;
+  try {
+    await Publication.findByIdAndUpdate(req.params.publicationId, {$push: { dislikes: userId}});
+    res.json("Reaction added");
+  } catch (error) {
+      next(error);
+  }
+});
+
+//PATCH "/publication/:publicationId/add-dislike" => pull a reaction from the publication
+router.patch("/:publicationId/dislike-like", isAuthenticated, async (req, res, next) =>{
+  const userId = req.payload._id;
+  try {
+    await Publication.findByIdAndUpdate(req.params.publicationId, {$pull: { dislikes: userId}});
+    res.json("Reaction deleted");
+  } catch (error) {
+      next(error);
+  }
+});
+
+
 module.exports = router;

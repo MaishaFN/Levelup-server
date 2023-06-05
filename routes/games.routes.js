@@ -26,12 +26,11 @@ router.get("/:gameId/details", async (req, res, next) =>{
     }
 })
 
-//GET "/games/list/:queryValue" => find game by query
+//GET "/games/:queryValue" => find game by query
 
-router.get("/list/:queryValue", async (req, res, next) =>{
+router.get("/:queryValue", async (req, res, next) =>{
     try {
-        const game = req.params.queryValue.split(" ").join("-");
-        const response = await axios.get(`https://api.rawg.io/api/games?key=${process.env.RAWG_KEY}&search=${game}`);
+        const response = await axios.get(`https://api.rawg.io/api/games?key=${process.env.RAWG_KEY}&search=${req.params.queryValue}`);
         res.json(response.data.results);
     } catch (error) {
         next(error)

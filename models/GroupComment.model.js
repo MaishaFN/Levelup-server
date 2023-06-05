@@ -1,31 +1,21 @@
 const { Schema, model } = require("mongoose");
 
-const valuationSchema = new Schema(
+const groupCommentSchema = new Schema(
   {
     owner: {
       type: Schema.Types.ObjectId,
       ref: "User",
       required: true,
     },
-
-    gameId: {
-      type: String,
-      required: true,
-      trim: true,
+    group: {
+      type: Schema.Types.ObjectId,
+      ref: "Group",
     },
 
     content: {
       type: String,
       required: true,
       trim: true,
-    },
-    reactions: {
-      type: [String],
-      enum: ["Me gusta", "No me gusta", "Me encanta"],
-    },
-    value: {
-      type: Number,
-      max: 5,
     },
     likes: {
       type: [Schema.Types.ObjectId],
@@ -45,6 +35,6 @@ const valuationSchema = new Schema(
   }
 );
 
-const Valuation = model("Valuation", valuationSchema);
+const GroupComment = model("GroupComment", groupCommentSchema);
 
-module.exports = Valuation;
+module.exports = GroupComment;
