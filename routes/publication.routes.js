@@ -33,23 +33,8 @@ router.get("/friendList", isAuthenticated, async (req, res, next) => {
   try {
     const userActive = await User.findById(userId);
     const friendList = userActive.friends
-    let publicationList = [];
+    const publicationList = await Publication.find({owner: { $in: friendList }}).populate("owner")
 
-    // Find all friends publications
-    for (let i = 0; i < friendList.length; i++){
-        try {
-            const friend = friendList[i];
-            const friendPublication = await Publication.find({owner: { $in: [friend] }}).populate("owner");
-            if (friendPublication.length > 0){
-                publicationList = [...publicationList, ...friendPublication]
-            } else {
-                publicationList = [...publicationList, friendPublication]
-            }     
-        } catch (error) {
-            next(error)
-        }
-    }
-    
     res.json(publicationList);
   } catch (error) {}
 });
