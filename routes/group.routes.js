@@ -28,7 +28,7 @@ router.get("/own", isAuthenticated, async (req, res, next) => {
 //GET "/group/:groupId/details" => Get group details
 router.get("/:groupId/details", async (req, res, next) => {
   try {
-    const groupDetails = await Group.findById(req.params.groupId);
+    const groupDetails = await Group.findById(req.params.groupId).populate("participants");
     res.json(groupDetails);
   } catch (error) {
     next(error);
