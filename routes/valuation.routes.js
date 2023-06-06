@@ -67,7 +67,7 @@ router.patch("/:valuationId/handle-love", isAuthenticated, async (req, res, next
 
     //checking if the user already did a reaction and deleting in that case
     const valuation = await Valuation.findById(req.params.valuationId);
-    if(valuation.likes.includes(userId)) {
+    if(valuation.loves.includes(userId)) {
       await Valuation.findByIdAndUpdate(req.params.valuationId, {$pull: { loves: userId}});
       res.json("Reaction deleted");
       return;
@@ -82,12 +82,12 @@ router.patch("/:valuationId/handle-love", isAuthenticated, async (req, res, next
 
 
 //PATCH "/valuation/:valuationId/add-dislike" => push/pull a new reaction to the comment
-router.patch("/:valuationId/dislike-like", isAuthenticated, async (req, res, next) =>{
+router.patch("/:valuationId/handle-dislike", isAuthenticated, async (req, res, next) =>{
   const userId = req.payload._id;
   try {
      //checking if the user already did a reaction and deleting in that case
      const valuation = await Valuation.findById(req.params.valuationId);
-     if(valuation.likes.includes(userId)) {
+     if(valuation.dislikes.includes(userId)) {
       await Valuation.findByIdAndUpdate(req.params.valuationId, {$pull: { dislikes: userId}});;
       res.json("Reaction deleted");
       return;
