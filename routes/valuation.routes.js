@@ -5,10 +5,18 @@ const router = require("express").Router();
 //GET "/valuation/:gameId" =>Get all game valuation
 router.get("/:gameId", isAuthenticated, async (req, res, next) => {
   try {
-    const allValuations = await Valuation.find({
-      gameId: { $in: [req.params.gameId] },
-    }).populate("owner").sort({createdAt : -1});
-    res.json(allValuations);
+    const allValuations = await Valuation.find({gameId: { $in: [req.params.gameId] }}).populate("owner").sort({createdAt : -1});
+    
+    //changing the date format 
+    const valuationsClone = allValuations.map(valuation => {
+      const clonePublication =JSON.parse(JSON.stringify(valuation))
+      let newDate = new Date(clonePublication.createdAt).toTimeString().slice(0,8) + " / " + new Date(clonePublication.createdAt).toDateString();
+      console.log(newDate)
+      clonePublication.createdAt = newDate
+      return clonePublication;
+    });
+
+    res.json(valuationsClone);
   } catch (error) {
     next(error);
   }

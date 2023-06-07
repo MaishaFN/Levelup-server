@@ -8,14 +8,15 @@ const router = require("express").Router();
 router.get("/", isAuthenticated, async (req, res, next) => {
   const userId = req.payload._id;
   try {
-    const publications = await Publication.find({ owner: { $in: [userId] } }).populate("owner").limit(20).sort({createdAt : -1});
+    const publications = await Publication.find({ owner: userId }).populate("owner").limit(20).sort({createdAt : -1});
+    // buena practica, usar selecciones internas del populate
+    //changing the date format 
     const publicationClone = publications.map(publication => {
-      console.log(publication.createdAt)
-      const cloneDate = publication.createdAt
-      let newDate = cloneDate.toTimeString() + cloneDate.toDateString();
-      publication.createdAt = newDate
-      console.log(publication.createdAt)
-      return publication;
+      const clonePublication =JSON.parse(JSON.stringify(publication))
+      let newDate = new Date(clonePublication.createdAt).toTimeString().slice(0,8) + " - " + new Date(clonePublication.createdAt).toDateString();
+      console.log(newDate)
+      clonePublication.createdAt = newDate
+      return clonePublication;
     });
     res.json(publicationClone);
   } catch (error) {
@@ -42,12 +43,16 @@ router.get("/friendList", isAuthenticated, async (req, res, next) => {
     const userActive = await User.findById(userId);
     const friendList = userActive.friends;
     const publicationList = await Publication.find({owner: { $in: friendList }}).populate("owner");
-    publicationList.forEach((publication) => {
-      const publicationDate = publication.createdAt;
-      publication.createdAt = new Date(publicationDate).toTimeString().slice(0,8) + " - " + new Date(publicationDate).toDateString();
+
+    const publicationClone = publicationList.map(publication => {
+      const clonePublication =JSON.parse(JSON.stringify(publication))
+      let newDate = new Date(clonePublication.createdAt).toTimeString().slice(0,8) + " - " + new Date(clonePublication.createdAt).toDateString();
+      console.log(newDate)
+      clonePublication.createdAt = newDate
+      return clonePublication;
     });
 
-    res.json(publicationList);
+    res.json(publicationClone);
   } catch (error) {}
 });
 
