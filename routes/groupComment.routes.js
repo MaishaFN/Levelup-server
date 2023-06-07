@@ -27,7 +27,7 @@ router.post("/:groupId", isAuthenticated, async (req, res, next) => {
 //DELETE "/group-comment/:groupCommentId" => delete a group comment
 router.delete("/:groupCommentId", async (req, res, next) => {
     try {
-        await GroupComment.findByIdAndDelete(groupCommentId);
+        await GroupComment.findByIdAndDelete(req.params.groupCommentId);
         res.json("Group comment delete");
     } catch (error) {
         next(error);
