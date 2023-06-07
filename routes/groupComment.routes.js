@@ -40,9 +40,9 @@ router.patch("/:groupCommentId/handle-like", isAuthenticated, async (req, res, n
   try {
 
     //checking if the user already did a reaction
-    const foundGroupComment = await GroupComment.findById(req.params.valuationId);
+    const foundGroupComment = await GroupComment.findById(req.params.groupCommentId);
     if(foundGroupComment.likes.includes(userId)) {
-      await GroupComment.findByIdAndUpdate(req.params.valuationId, {$pull: { likes: userId}});
+      await GroupComment.findByIdAndUpdate(req.params.groupCommentId, {$pull: { likes: userId}});
       res.json("Reaction deleted");
       return;
     }
@@ -61,9 +61,9 @@ router.patch("/:groupCommentId/handle-love", isAuthenticated, async (req, res, n
     try {
 
       //checking if the user already did a reaction
-      const foundGroupComment = await GroupComment.findById(req.params.valuationId);
+      const foundGroupComment = await GroupComment.findById(req.params.groupCommentId);
       if(foundGroupComment.loves.includes(userId)) {
-        await GroupComment.findByIdAndUpdate(req.params.valuationId, {$pull: { loves: userId}});
+        await GroupComment.findByIdAndUpdate(req.params.groupCommentId, {$pull: { loves: userId}});
         res.json("Reaction deleted");
         return;
 
@@ -82,9 +82,9 @@ router.patch("/:groupCommentId/handle-dislike", isAuthenticated, async (req, res
     try {
 
       //checking if the user already did a reaction
-      const foundGroupComment = await GroupComment.findById(req.params.valuationId);
+      const foundGroupComment = await GroupComment.findById(req.params.groupCommentId);
       if(foundGroupComment.dislikes.includes(userId)) {
-        await GroupComment.findByIdAndUpdate(req.params.valuationId, {$pull: { dislikes: userId}});
+        await GroupComment.findByIdAndUpdate(req.params.groupCommentId, {$pull: { dislikes: userId}});
         res.json("Reaction deleted");
         return;
       } 
