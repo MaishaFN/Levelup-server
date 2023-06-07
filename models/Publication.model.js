@@ -13,10 +13,6 @@ const publicationSchema = new Schema(
       required: true,
       trim: true,
     },
-    reactions: {
-      type: [String],
-      enum: ["Me gusta", "No me gusta", "Me encanta"],
-    },
     likes: {
       type: [Schema.Types.ObjectId],
       ref: "User",

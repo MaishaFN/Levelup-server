@@ -55,9 +55,10 @@ router.patch("/:publicationId/handle-like", isAuthenticated, async (req, res, ne
   try {
 
     //checking if the user already did a reaction and deleting in that case
-    const publication = await Publication.findById(req.params.valuationId);
+    const publication = await Publication.findById(req.params.publicationId);
+    console.log(publication)
     if(publication.likes.includes(userId)) {
-     await Publication.findByIdAndUpdate(req.params.valuationId, {$pull: { likes: userId}});;
+     await Publication.findByIdAndUpdate(req.params.publicationId, {$pull: { likes: userId}});;
       res.json("Reaction deleted");
       return;
     }
@@ -75,9 +76,9 @@ router.patch("/:publicationId/handle-love", isAuthenticated, async (req, res, ne
   try {
 
     //checking if the user already did a reaction and deleting in that case
-    const publication = await Publication.findById(req.params.valuationId);
+    const publication = await Publication.findById(req.params.publicationId);
     if(publication.loves.includes(userId)) {
-      await Publication.findByIdAndUpdate(req.params.valuationId, {$pull: { loves: userId}});
+      await Publication.findByIdAndUpdate(req.params.publicationId, {$pull: { loves: userId}});
       res.json("Reaction deleted");
       return;
     };
@@ -95,9 +96,9 @@ router.patch("/:publicationId/handle-dislike", isAuthenticated, async (req, res,
   try {
 
     //checking if the user already did a reaction and deleting in that case
-    const publication = await Publication.findById(req.params.valuationId);
+    const publication = await Publication.findById(req.params.publicationId);
     if(publication.dislikes.includes(userId)) {
-      await Publication.findByIdAndUpdate(req.params.valuationId, {$pull: { dislikes: userId}});
+      await Publication.findByIdAndUpdate(req.params.publicationId, {$pull: { dislikes: userId}});
       res.json("Reaction deleted");
       return;
     };

@@ -19,10 +19,6 @@ const valuationSchema = new Schema(
       required: true,
       trim: true,
     },
-    reactions: {
-      type: [String],
-      enum: ["Me gusta", "No me gusta", "Me encanta"],
-    },
     value: {
       type: Number,
       max: 5,
