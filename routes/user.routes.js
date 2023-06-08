@@ -9,7 +9,14 @@ router.get("/", isAuthenticated, async (req, res, next) => {
   const userId = req.payload._id;
   try {
     const activeUser = await User.findById(userId).populate("friends");
-    res.json(activeUser);
+
+     //changing the date format 
+     const userClone = JSON.parse(JSON.stringify(activeUser));
+     let newDate = new Date(userClone.birthDate).toDateString();
+     userClone.birthDate = newDate
+     console.log(userClone)
+
+    res.json(userClone);
   } catch (error) {
     next(error);
   }
@@ -102,8 +109,8 @@ router.patch(
   async (req, res, next) => {
     const userId = req.payload._id;
     try {
-      const friend = await User.findById(req.params.friendId);
-      await User.findByIdAndUpdate(userId, { $push: { friends: friend._id } });
+      await User.findByIdAndUpdate(userId, { $push: { friends: req.params.friendId } });
+      await User.findByIdAndUpdate(req.params.friendId, { $push: { friends: userId } });
       res.json("Friend added");
     } catch (error) {
       next(error);
