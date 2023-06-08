@@ -26,7 +26,7 @@ router.get("/", isAuthenticated, async (req, res, next) => {
 
 router.get("/:friendId", isAuthenticated, async (req, res, next) => {
   try {
-    const friend = await User.findById(req.params.friendId);
+    const friend = await User.findById(req.params.friendId).populate("friends");
     res.json(friend);
   } catch (error) {
     next(error);
@@ -38,8 +38,7 @@ router.get("/:friendId", isAuthenticated, async (req, res, next) => {
 router.get("/:queryFriend/find", isAuthenticated, async (req, res, next) => {
   try {
 
-    const friend = await User.findOne({username: req.params.queryFriend});
-    console.log(friend)
+    const friend = await User.findOne({username: req.params.queryFriend}).populate("friends");
 
     //User not found
     if(!friend){
@@ -122,8 +121,8 @@ router.patch(
 router.patch("/friends/:friendId", isAuthenticated, async (req, res, next) => {
   const userId = req.payload._id;
   try {
-    const friend = await User.findById(req.params.friendId);
-    await User.findByIdAndUpdate(userId, { $pull: { friends: friend._id } });
+    await User.findByIdAndUpdate(userId, { $pull: { friends: req.params.friendId } });
+    await User.findByIdAndUpdate(req.params.friendId , { $pull: { friends: userId } });
     res.json("Friend deleted from the list");
   } catch (error) {
     next(error);
