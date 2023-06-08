@@ -15,7 +15,7 @@ router.get("/", isAuthenticated, async (req, res, next) => {
   }
 });
 
-//GET "/user/friend/:friendId" => user's friend info
+//GET "/user/:friendId" => user's friend info
 
 router.get("/:friendId", isAuthenticated, async (req, res, next) => {
   try {
@@ -30,7 +30,9 @@ router.get("/:friendId", isAuthenticated, async (req, res, next) => {
 
 router.get("/:queryFriend/find", isAuthenticated, async (req, res, next) => {
   try {
+
     const friend = await User.findOne({username: req.params.queryFriend});
+    console.log(friend)
 
     //User not found
     if(!friend){
